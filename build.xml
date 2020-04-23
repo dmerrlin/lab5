@@ -1,0 +1,81 @@
+<project name="lab4" default="run" basedir=".">
+
+    
+    <target name="path">
+
+        <property name="srcDir" value="${basedir}\src"/>
+
+        <property name="jarDir" value="${basedir}\jar"/>
+
+    </target>
+
+
+
+    <target name="compile" depends="path">
+
+        <echo> Compile operation</echo>
+            <javac destdir="${srcDir}"
+
+                 includeantruntime="false">
+
+                <src path="${srcDir}\lab3"/>
+
+         </javac>
+
+    </target>
+
+
+        <target name="jar" depends="compile">
+
+            <echo> Make jar operation</echo>
+
+                <jar jarfile="${jarDir}\operation.jar">
+
+                <fileset dir="${srcDir}\lab3"/>
+
+            </jar>
+
+        </target>
+
+
+
+        <target name="compile_main" depends="jar">
+
+            <echo> Compile MainHandler</echo>
+
+                <javac destdir="${srcDir}"
+
+                 includeantruntime="false">
+
+                 <src path="${srcDir}\lab3"/>
+
+                </javac>
+
+        </target>
+
+
+<target name="jar_main">
+
+<echo> Make jar MainHandler</echo>
+
+        <jar jarfile="${jarDir}\MainHandler.jar" basedir="${srcDir}">
+
+        <manifest>
+
+            <attribute name="MainHandler-Class" value="lab3.MainHandler"/>
+
+        </manifest>
+
+    </jar>
+
+</target>
+
+
+
+    <target name="run" depends="compile_main,jar_main">
+
+        <java jar="${jarDir}\MainHandler.jar" fork="true"/>
+
+    </target>
+
+</project>
